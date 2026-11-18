@@ -16,13 +16,13 @@ Your objective is to read a client's business brief and turn this template repos
 ---
 
 ## 2. TECH STACK & ENVIRONMENT
-- **Framework:** Next.js 16 (App Router, Cache Components enabled). Route protection lives in `proxy.ts` (the renamed `middleware.ts`).
+- **Framework:** Next.js 16 (App Router). Route protection lives in `proxy.ts` (the renamed `middleware.ts`).
 - **Authentication:** NextAuth v4 (Credentials provider — username/password, JWT sessions), configured in `lib/auth.ts`. Demo accounts live in `lib/demo.ts` and are created by the seed script. Everything must work out-of-the-box for the client preview with zero external OAuth or environment setup required from them.
 - **Styling:** Tailwind CSS v4 (clean, modern, high-contrast B2B SaaS aesthetic).
 - **Core Architecture:** `asasvirtuais` framework (v6) for forms on top of tables. **Read `AGENTS.md` before writing any application code** to follow exact `asasvirtuais` v6 conventions.
 - **Database:** PostgreSQL via Prisma 7 (`prisma/schema.prisma`, client generated to `generated/prisma`) and the `asasvirtuais-prisma` adapter (`app/db.ts`). Table `'invoices'` maps to model `Invoice`. Seed data goes in `prisma/seed.ts`.
 - **Package manager:** pnpm. Scripts: `pnpm dev`, `pnpm build`, `pnpm typecheck`, `pnpm lint`, `pnpm db:push`, `pnpm db:migrate`, `pnpm db:seed`.
-- **Infrastructure:** You have full CLI/API access to Vercel (deployments, databases, environment variables) and the Asas Virtuais GitHub account.
+- **Infrastructure:** You have full CLI/API access to Vercel (deployments, databases, environment variables) and the Asas Virtuais GitHub account. Everything database-related (provisioning Postgres, `DATABASE_URL`, `db:push`, seeding) is done through Vercel.
 
 ---
 

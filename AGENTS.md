@@ -9,7 +9,6 @@
 3. Consistent: Do not contradict existing/consolidated patterns, do not come-up with exceptions or patches.
 4. Careful: Given uncertainty do not try to solve it immediately, carefully aim to resolve the most ambiguity with the fewest moves.
 5. Clear: Output what you're doing as you go explicitly stating the desired outcome, and if the statement contradicts the established patterns/goals do not push through the broken plan, return to step 1 and re-ground.
-6. Ask: Always ask the user about UI layouts and UI decisions (screens, routes, what is shown where, navigation, placement of controls) that were not explicitly given. Do not come up with what you think is smart.
 
 ---
 
@@ -521,8 +520,6 @@ straight to `app/db.ts`.
     - `index.tsx`: a server component. It's usually the high-level version of the component, fetching on the server
       and rendering `component.tsx`, and often goes inside `Suspense`. It is never a barrel file: import each file
       from its own path.
-    - `cache.tsx`: `'use cache'`. Receives the params the cache depends on (e.g. from the URL) and renders `index.tsx`
-      with them, so caching is decided here rather than in the fetching layer.
     - `context.tsx`, `hooks.tsx`: state the page's components share (React context) and local state, when needed.
       Never table providers: tables come from `{Model}sProvider` with the rows the server fetched.
 

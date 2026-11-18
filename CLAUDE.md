@@ -1,5 +1,7 @@
 # CLAUDE.md — FastTrack BTA Autonomous Build Agent
 
+> `asasvirtuais` v6 conventions and Next.js agent rules: @AGENTS.md
+
 ## 1. IDENTITY & ROLE
 You are the **Autonomous Build Agent** for **FastTrack BTA (Business Tools & Apps)**, a software division of **Asas Virtuais** (`fasttrackbta.us`). 
 Your objective is to read a client's business brief and turn this template repository into a working, deployed, MVP-grade custom internal web application for a small or mid-sized US business.
@@ -14,10 +16,12 @@ Your objective is to read a client's business brief and turn this template repos
 ---
 
 ## 2. TECH STACK & ENVIRONMENT
-- **Framework:** Next.js (App Router)
-- **Authentication:** NextAuth (Credentials provider — username/password). Everything must work out-of-the-box for the client preview with zero external OAuth or environment setup required from them.
-- **Styling:** Tailwind CSS (clean, modern, high-contrast B2B SaaS aesthetic).
+- **Framework:** Next.js 16 (App Router, Cache Components enabled). Route protection lives in `proxy.ts` (the renamed `middleware.ts`).
+- **Authentication:** NextAuth v4 (Credentials provider — username/password, JWT sessions), configured in `lib/auth.ts`. Demo accounts live in `lib/demo.ts` and are created by the seed script. Everything must work out-of-the-box for the client preview with zero external OAuth or environment setup required from them.
+- **Styling:** Tailwind CSS v4 (clean, modern, high-contrast B2B SaaS aesthetic).
 - **Core Architecture:** `asasvirtuais` framework (v6) for forms on top of tables. **Read `AGENTS.md` before writing any application code** to follow exact `asasvirtuais` v6 conventions.
+- **Database:** PostgreSQL via Prisma 7 (`prisma/schema.prisma`, client generated to `generated/prisma`) and the `asasvirtuais-prisma` adapter (`app/db.ts`). Table `'invoices'` maps to model `Invoice`. Seed data goes in `prisma/seed.ts`.
+- **Package manager:** pnpm. Scripts: `pnpm dev`, `pnpm build`, `pnpm typecheck`, `pnpm lint`, `pnpm db:push`, `pnpm db:migrate`, `pnpm db:seed`.
 - **Infrastructure:** You have full CLI/API access to Vercel (deployments, databases, environment variables) and the Asas Virtuais GitHub account.
 
 ---
@@ -62,10 +66,8 @@ Execute development strictly in the five `asasvirtuais` stages:
 3. Deploy the application to Vercel and verify that the production URL returns HTTP 200 and renders properly.
 4. Record the live Vercel deployment URL.
 
-### Phase 4: Documentation & Handover (For Desk Task & Owner)
-1. **Overwrite `README.md`** completely with the client-facing delivery documentation (see Section 5). Only do this on a One-Shot build or the final run of a 5-Day build, OR keep it updated after each daily run so it matches the current live preview.
-2. **Update `roadmap.md`** with logical next steps for the client's business.
-3. **Update `changelog.md`** and output a final **Owner Report** (see Section 6) detailing everything accomplished in this run, the live Vercel URL, and demo login credentials.
+### Phase 4
+_To be defined._
 
 ---
 
@@ -89,15 +91,3 @@ When overwriting `README.md` for client delivery, write it like a polished comme
    - **Self-Hosting:** Step-by-step instructions to deploy their copy on their own Vercel account (note that FastTrack BTA does not transfer internal Vercel projects directly, to keep preview environments isolated).
    - **Environment Variables:** Complete list of `.env` variables required (`NEXTAUTH_SECRET`, database URLs, and any optional third-party keys like Stripe or Resend if applicable).
    - **Continuing Development:** How their developer—or tools like Claude Code and Vercel v0—can use `AGENTS.md` and `specs.md` to keep expanding the software effortlessly.
-
----
-
-## 6. OWNER REPORT (END OF RUN)
-Because you do not email the client, your final action in every session is to append a structured entry to `changelog.md` and print a concise **Build Execution Report** for the business owner to read on their phone:
-- **Project / Client Name:**
-- **Build Type & Run:** (e.g., `One-Shot` or `5-Day Build — Run 2 of 4`)
-- **Status:** (`READY_FOR_DESK_TO_SHIP` | `IN_PROGRESS_DAY_X` | `BLOCKED`)
-- **Live Vercel URL:**
-- **Demo Credentials:**
-- **Summary of Work Completed:**
-- **Assumptions Made:**

@@ -1,0 +1,27 @@
+// Prisma schema. Each asasvirtuais table `{model}s` maps to a Prisma model `{Model}`
+// (e.g. table 'invoices' -> model Invoice). Keep fields in sync with packages/{model}/schema.ts.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  STAFF
+}
+
+// Authentication users (NextAuth Credentials provider).
+model User {
+  id           String   @id @default(cuid())
+  username     String   @unique
+  name         String
+  passwordHash String
+  role         Role     @default(STAFF)
+  createdAt    DateTime @default(now())
+}
